@@ -31,7 +31,7 @@ model =
 
 randCell : Generator Cell
 randCell =
-    map
+    Random.map
         (\b ->
             if b then
                 Alive
