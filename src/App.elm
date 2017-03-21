@@ -2,6 +2,7 @@ module App exposing (..)
 
 import Html exposing (Html, h1, table, td, tr, div, text, program)
 import List exposing (repeat)
+import Random exposing (Generator, bool, map, list)
 
 
 -- MODEL
@@ -25,9 +26,21 @@ model =
     Model (repeat 10 (repeat 10 Empty))
 
 
+randCell : Generator Cell
+randCell =
+    map
+        (\b ->
+            if b then
+                Alive
+            else
+                Empty
+        )
+        bool
+
+
 init : ( Model, Cmd Msg )
 init =
-    ( model, Cmd.none )
+    ( model, Random.generate BoardUpdate (list 10 (list 10 randCell)) )
 
 
 
@@ -35,7 +48,8 @@ init =
 
 
 type Msg
-    = NoOps
+    = BoardUpdate Board
+    | NoOps
 
 
 
@@ -79,6 +93,9 @@ update msg model =
     case msg of
         NoOps ->
             ( model, Cmd.none )
+
+        BoardUpdate board ->
+            ( { model | board = board }, Cmd.none )
 
 
 
