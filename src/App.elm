@@ -1,8 +1,11 @@
 module App exposing (..)
 
-import Html exposing (Html, h1, table, td, tr, div, text, program)
+import Html exposing (Html, button, h1, table, td, tr, div, text, program)
+import Html.Events exposing (onClick)
 import List exposing (repeat)
-import Random exposing (Generator, bool, map, list)
+import Random exposing (Generator, bool, list)
+import Array exposing (Array, fromList, toList, get)
+import Maybe exposing (Maybe, andThen)
 
 
 -- MODEL
