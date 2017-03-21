@@ -143,6 +143,38 @@ neighbourCount x y arrayBoard =
             |> List.length
 
 
+compute : Board -> Board
+compute board =
+    let
+        arrayBoard =
+            fromList (List.map fromList board)
+    in
+        Array.indexedMap
+            (\x row ->
+                Array.indexedMap
+                    (\y cell ->
+                        let
+                            neighbours =
+                                neighbourCount x y arrayBoard
+                        in
+                            case cell of
+                                Empty ->
+                                    if (neighbours == 3) then
+                                        Alive
+                                    else
+                                        Empty
+
+                                Alive ->
+                                    if (neighbours == 3 || neighbours == 2) then
+                                        Alive
+                                    else
+                                        Empty
+                    )
+                    row
+            )
+            arrayBoard
+            |> \newArray -> (toList (Array.map toList newArray))
+
 
 
 -- SUBSCRIPTIONS
