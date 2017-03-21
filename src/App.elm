@@ -101,6 +101,49 @@ update msg model =
             ( { model | board = board }, Cmd.none )
 
 
+neighbourCount : Int -> Int -> Array (Array Cell) -> Int
+neighbourCount x y arrayBoard =
+    let
+        aboveRow =
+            get (y - 1) arrayBoard
+
+        belowRow =
+            get (y + 1) arrayBoard
+
+        currentRow =
+            get y arrayBoard
+    in
+        [ aboveRow |> andThen (get (x - 1))
+        , aboveRow |> andThen (get x)
+        , aboveRow |> andThen (get (x + 1))
+        , currentRow |> andThen (get (x - 1))
+        , currentRow |> andThen (get (x + 1))
+        , belowRow |> andThen (get (x - 1))
+        , belowRow |> andThen (get x)
+        , belowRow |> andThen (get (x + 1))
+        ]
+            |> List.map
+                (\just ->
+                    case just of
+                        Just cell ->
+                            cell
+
+                        Nothing ->
+                            Empty
+                )
+            |> List.filter
+                (\cell ->
+                    case cell of
+                        Alive ->
+                            True
+
+                        Empty ->
+                            False
+                )
+            |> List.length
+
+
+
 
 -- SUBSCRIPTIONS
 
