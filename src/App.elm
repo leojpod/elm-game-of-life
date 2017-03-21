@@ -13,6 +13,7 @@ import Maybe exposing (Maybe, andThen)
 
 type Cell
     = Empty
+    | Dead
     | Alive
 
 
@@ -71,19 +72,31 @@ view model =
 
 boardView : Board -> Html Msg
 boardView board =
-    table [] (List.map rowView board)
+    table []
+        ((tr []
+            ((td [] [])
+                :: ((List.range 0 9)
+                        |> List.map (\col -> td [] [ text (toString col) ])
+                   )
+            )
+         )
+            :: (List.indexedMap rowView board)
+        )
 
 
-rowView : List Cell -> Html Msg
-rowView row =
-    tr [] (List.map cellView row)
+rowView : Int -> List Cell -> Html Msg
+rowView idx row =
+    tr [] ((td [] [ text (toString idx) ]) :: (List.map cellView row))
 
 
 cellView : Cell -> Html Msg
 cellView cell =
     case cell of
         Empty ->
-            td [] [ text " " ]
+            td [] [ text "." ]
+
+        Dead ->
+            td [] [ text "-" ]
 
         Alive ->
             td [] [ text "X" ]
@@ -114,22 +127,22 @@ neighbourCount : Int -> Int -> Array (Array Cell) -> Int
 neighbourCount x y arrayBoard =
     let
         aboveRow =
-            get (y - 1) arrayBoard
+            get (x - 1) arrayBoard
 
         belowRow =
-            get (y + 1) arrayBoard
+            get (x + 1) arrayBoard
 
         currentRow =
-            get y arrayBoard
+            get x arrayBoard
     in
-        [ aboveRow |> andThen (get (x - 1))
-        , aboveRow |> andThen (get x)
-        , aboveRow |> andThen (get (x + 1))
-        , currentRow |> andThen (get (x - 1))
-        , currentRow |> andThen (get (x + 1))
-        , belowRow |> andThen (get (x - 1))
-        , belowRow |> andThen (get x)
-        , belowRow |> andThen (get (x + 1))
+        [ aboveRow |> andThen (get (y - 1))
+        , aboveRow |> andThen (get y)
+        , aboveRow |> andThen (get (y + 1))
+        , currentRow |> andThen (get (y - 1))
+        , currentRow |> andThen (get (y + 1))
+        , belowRow |> andThen (get (y - 1))
+        , belowRow |> andThen (get y)
+        , belowRow |> andThen (get (y + 1))
         ]
             |> List.map
                 (\just ->
@@ -146,7 +159,7 @@ neighbourCount x y arrayBoard =
                         Alive ->
                             True
 
-                        Empty ->
+                        _ ->
                             False
                 )
             |> List.length
@@ -167,14 +180,14 @@ compute board =
                                 neighbourCount x y arrayBoard
                         in
                             case cell of
-                                Empty ->
-                                    if (neighbours == 3) then
-                                        Alive
-                                    else
-                                        Empty
-
                                 Alive ->
                                     if (neighbours == 3 || neighbours == 2) then
+                                        Alive
+                                    else
+                                        Dead
+
+                                _ ->
+                                    if (neighbours == 3) then
                                         Alive
                                     else
                                         Empty
