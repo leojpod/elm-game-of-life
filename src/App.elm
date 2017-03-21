@@ -52,6 +52,7 @@ init =
 
 type Msg
     = BoardUpdate Board
+    | Tick
     | NoOps
 
 
@@ -63,6 +64,7 @@ view : Model -> Html Msg
 view model =
     div []
         [ h1 [] [ text "Elm's game of life" ]
+        , button [ onClick Tick ] [ text "tick!" ]
         , div [] [ boardView model.board ]
         ]
 
@@ -99,6 +101,13 @@ update msg model =
 
         BoardUpdate board ->
             ( { model | board = board }, Cmd.none )
+
+        Tick ->
+            let
+                nextBoard =
+                    compute model.board
+            in
+                ( { model | board = nextBoard }, Cmd.none )
 
 
 neighbourCount : Int -> Int -> Array (Array Cell) -> Int
