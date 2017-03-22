@@ -1,0 +1,12 @@
+{
+  "name": "elm-game-of-life",
+  "version": "0.0.1",
+  "description": "simple game of life game implementation to discover elm-lang",
+  "main": "elm.js",
+  "repository": "git@gitlab.com:leojpod/elm-game-of-life.git",
+  "author": "Leo jPod <leo.jpod@gmail.com>",
+  "license": "DBAD",
+  "scripts": {
+    "dev": "elm-live src/App.elm --output=elm.js --open"
+  }
+}
