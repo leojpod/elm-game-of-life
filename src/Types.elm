@@ -1,4 +1,4 @@
-module Types exposing (Cell(..), Board, Model, Msg(..))
+module Types exposing (Cell(..), Board, PlayState(..), Model, Msg(..))
 
 -- MODEL
 
@@ -13,8 +13,13 @@ type alias Board =
     List (List Cell)
 
 
+type PlayState
+    = Play
+    | Pause
+
+
 type alias Model =
-    { board : Board }
+    { board : Board, playState : PlayState }
 
 
 
@@ -24,4 +29,5 @@ type alias Model =
 type Msg
     = BoardUpdate Board
     | Tick
+    | TogglePlayState
     | NoOps

@@ -6,7 +6,7 @@ import Html.Events exposing (onClick)
 
 -- local import
 
-import Types exposing (Board, Cell(..), Model, Msg(..))
+import Types exposing (Board, Cell(..), PlayState(..), Model, Msg(..))
 
 
 -- VIEW
@@ -16,7 +16,14 @@ view : Model -> Html Msg
 view model =
     div []
         [ h1 [] [ text "Elm's game of life" ]
-        , button [ onClick Tick ] [ text "tick!" ]
+        , button [ onClick TogglePlayState ]
+            [ case model.playState of
+                Play ->
+                    text "pause"
+
+                Pause ->
+                    text "resume"
+            ]
         , div [] [ boardView model.board ]
         ]
 

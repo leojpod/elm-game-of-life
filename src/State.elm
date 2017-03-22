@@ -4,12 +4,12 @@ import List exposing (repeat)
 import Random exposing (Generator, bool, list)
 import Array exposing (Array, fromList, toList, get)
 import Maybe exposing (Maybe, andThen)
-import Time exposing (every)
+import Time exposing (every, second)
 
 
 -- local imports
 
-import Types exposing (Board, Cell(..), Model, Msg(..))
+import Types exposing (Board, Cell(..), PlayState(..), Model, Msg(..))
 
 
 -- INIT
@@ -17,7 +17,7 @@ import Types exposing (Board, Cell(..), Model, Msg(..))
 
 model : Model
 model =
-    Model (repeat 10 (repeat 10 Empty))
+    Model (repeat 10 (repeat 10 Empty)) Play
 
 
 randCell : Generator Cell
@@ -56,6 +56,14 @@ update msg model =
                     compute model.board
             in
                 ( { model | board = nextBoard }, Cmd.none )
+
+        TogglePlayState ->
+            case model.playState of
+                Play ->
+                    ( { model | playState = Pause }, Cmd.none )
+
+                Pause ->
+                    ( { model | playState = Play }, Cmd.none )
 
 
 neighbourCount : Int -> Int -> Array (Array Cell) -> Int
@@ -139,4 +147,9 @@ compute board =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    every 2000 (\_ -> Tick)
+    case model.playState of
+        Play ->
+            every second (\_ -> Tick)
+
+        Pause ->
+            Sub.none
