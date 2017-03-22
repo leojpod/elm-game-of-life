@@ -4,6 +4,7 @@ import List exposing (repeat)
 import Random exposing (Generator, bool, list)
 import Array exposing (Array, fromList, toList, get)
 import Maybe exposing (Maybe, andThen)
+import Time exposing (every)
 
 
 -- local imports
@@ -138,4 +139,4 @@ compute board =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    every 2000 (\_ -> Tick)
