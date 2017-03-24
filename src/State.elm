@@ -5,6 +5,8 @@ import Random exposing (Generator, bool, list)
 import Array exposing (Array, fromList, toList, get)
 import Maybe exposing (Maybe, andThen)
 import Time exposing (every, second)
+import Material
+import Material.Layout as Layout
 
 
 -- local imports
@@ -17,7 +19,7 @@ import Types exposing (Board, Cell(..), PlayState(..), Model, Msg(..))
 
 model : Model
 model =
-    Model (repeat 10 (repeat 10 Empty)) Play
+    Model (repeat 10 (repeat 10 Empty)) Play Material.model
 
 
 randCell : Generator Cell
@@ -34,7 +36,12 @@ randCell =
 
 init : ( Model, Cmd Msg )
 init =
-    ( model, Random.generate BoardUpdate (list 10 (list 10 randCell)) )
+    ( model
+    , Cmd.batch
+        [ Random.generate BoardUpdate (list 10 (list 10 randCell))
+        , Layout.sub0 Mdl
+        ]
+    )
 
 
 
@@ -44,9 +51,6 @@ init =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOps ->
-            ( model, Cmd.none )
-
         BoardUpdate board ->
             ( { model | board = board }, Cmd.none )
 
@@ -64,6 +68,9 @@ update msg model =
 
                 Pause ->
                     ( { model | playState = Play }, Cmd.none )
+
+        Mdl mdlMsg ->
+            Material.update Mdl mdlMsg model
 
 
 neighbourCount : Int -> Int -> Array (Array Cell) -> Int
@@ -147,9 +154,12 @@ compute board =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    case model.playState of
-        Play ->
-            every second (\_ -> Tick)
+    Sub.batch
+        [ Material.subscriptions Mdl model
+        , case model.playState of
+            Play ->
+                every second (\_ -> Tick)
 
-        Pause ->
-            Sub.none
+            Pause ->
+                Sub.none
+        ]

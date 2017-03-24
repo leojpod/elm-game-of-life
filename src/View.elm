@@ -2,6 +2,7 @@ module View exposing (view)
 
 import Html exposing (Html, h1, div, button, text, table, tr, td)
 import Html.Events exposing (onClick)
+import Material.Layout as Layout
 
 
 -- local import
@@ -14,9 +15,21 @@ import Types exposing (Board, Cell(..), PlayState(..), Model, Msg(..))
 
 view : Model -> Html Msg
 view model =
+    Layout.render Mdl
+        model.mdl
+        [ Layout.fixedHeader
+        ]
+        { header = [ h1 [] [ text "Elm's game of life" ] ]
+        , drawer = []
+        , tabs = ( [], [] )
+        , main = [ viewBody model ]
+        }
+
+
+viewBody : Model -> Html Msg
+viewBody model =
     div []
-        [ h1 [] [ text "Elm's game of life" ]
-        , button [ onClick TogglePlayState ]
+        [ button [ onClick TogglePlayState ]
             [ case model.playState of
                 Play ->
                     text "pause"

@@ -1,5 +1,8 @@
 module Types exposing (Cell(..), Board, PlayState(..), Model, Msg(..))
 
+import Material
+
+
 -- MODEL
 
 
@@ -19,7 +22,7 @@ type PlayState
 
 
 type alias Model =
-    { board : Board, playState : PlayState }
+    { board : Board, playState : PlayState, mdl : Material.Model }
 
 
 
@@ -30,4 +33,4 @@ type Msg
     = BoardUpdate Board
     | Tick
     | TogglePlayState
-    | NoOps
+    | Mdl (Material.Msg Msg)
