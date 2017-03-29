@@ -94,25 +94,31 @@ neighbourCount x y arrayBoard =
         , belowRow |> andThen (get y)
         , belowRow |> andThen (get (y + 1))
         ]
-            |> List.map
-                (\just ->
-                    case just of
-                        Just cell ->
-                            cell
+            -- |> Debug.log
+            -- ("("
+            -- ++ (toString x)
+            -- ++ ","
+            -- ++ (toString y)
+            -- ++ ") before filterMap"
+            -- )
+            |>
+                List.filterMap
+                    (\just ->
+                        case just of
+                            Just cell ->
+                                case cell of
+                                    Alive ->
+                                        Just Alive
 
-                        Nothing ->
-                            Empty
-                )
-            |> List.filter
-                (\cell ->
-                    case cell of
-                        Alive ->
-                            True
+                                    _ ->
+                                        Nothing
 
-                        _ ->
-                            False
-                )
-            |> List.length
+                            Nothing ->
+                                Nothing
+                    )
+            -- |> Debug.log "after filterMap"
+            |>
+                List.length
 
 
 compute : Board -> Board
