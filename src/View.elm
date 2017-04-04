@@ -3,6 +3,8 @@ module View exposing (view)
 import Html exposing (Html, h1, div, button, text, table, tr, td)
 import Material.Layout as Layout
 import Material.Grid as Grid exposing (grid, cell, size, Device(..))
+import Material.Card as Card
+import Material.Elevation as Elevation
 
 
 -- local import
@@ -31,7 +33,17 @@ viewBody : Model -> Html Msg
 viewBody model =
     grid []
         [ cell [ size All 4 ] [ setupView model.setup model.mdl ]
-        , cell [ size All 8 ] [ boardView model.board ]
+        , cell [ size All 8 ]
+            [ Card.view
+                [ Elevation.e24
+                , Elevation.transition 1000
+                , size All 12
+                ]
+                [ Card.text []
+                    [ boardView model.board
+                    ]
+                ]
+            ]
         ]
 
 

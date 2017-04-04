@@ -7,6 +7,7 @@ import Material.Icon as Icon
 import Material.Card as Card
 import Material.Options as Options
 import Material.Elevation as Elevation
+import Material.Grid as Grid exposing (grid, cell, size, Device(..))
 
 
 -- local imports
@@ -51,6 +52,7 @@ setupView setup mdlModel =
     Card.view
         [ Elevation.e24
         , Elevation.transition 500
+        , size All 12
         ]
         [ Card.title []
             [ Card.head [] [ text "Setup" ]
