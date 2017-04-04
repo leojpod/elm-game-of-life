@@ -11,7 +11,9 @@ import Material.Layout as Layout
 
 -- local imports
 
-import Types exposing (Board, Cell(..), PlayState(..), Model, Msg(..))
+import Types exposing (Board, Cell(..), Model, Msg(..))
+import Setup.State
+import Setup.Types exposing (SetupMsg(..))
 
 
 -- INIT
@@ -19,7 +21,7 @@ import Types exposing (Board, Cell(..), PlayState(..), Model, Msg(..))
 
 model : Model
 model =
-    Model (repeat 10 (repeat 10 Empty)) Play Material.model
+    Model (repeat 10 (repeat 10 Empty)) Setup.State.init Material.model
 
 
 randCell : Generator Cell
@@ -61,13 +63,9 @@ update msg model =
             in
                 ( { model | board = nextBoard }, Cmd.none )
 
-        TogglePlayState ->
-            case model.playState of
-                Play ->
-                    ( { model | playState = Pause }, Cmd.none )
-
-                Pause ->
-                    ( { model | playState = Play }, Cmd.none )
+        SetupMsg setupMsg ->
+            Setup.State.update setupMsg model.setup
+                |> (\( newSetup, cmd ) -> ( { model | setup = newSetup }, Cmd.none ))
 
         Mdl mdlMsg ->
             Material.update Mdl mdlMsg model
@@ -162,10 +160,10 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ Material.subscriptions Mdl model
-        , case model.playState of
-            Play ->
+        , case model.setup.state of
+            Setup.Types.Play ->
                 every second (\_ -> Tick)
 
-            Pause ->
+            Setup.Types.Pause ->
                 Sub.none
         ]

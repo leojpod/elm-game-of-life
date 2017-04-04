@@ -1,6 +1,11 @@
-module Types exposing (Cell(..), Board, PlayState(..), Model, Msg(..))
+module Types exposing (Cell(..), Board, Model, Msg(..))
 
 import Material
+
+
+-- local imports
+
+import Setup.Types exposing (Setup, SetupMsg(..))
 
 
 -- MODEL
@@ -16,13 +21,8 @@ type alias Board =
     List (List Cell)
 
 
-type PlayState
-    = Play
-    | Pause
-
-
 type alias Model =
-    { board : Board, playState : PlayState, mdl : Material.Model }
+    { board : Board, setup : Setup, mdl : Material.Model }
 
 
 
@@ -32,5 +32,5 @@ type alias Model =
 type Msg
     = BoardUpdate Board
     | Tick
-    | TogglePlayState
+    | SetupMsg SetupMsg
     | Mdl (Material.Msg Msg)

@@ -1,13 +1,14 @@
 module View exposing (view)
 
 import Html exposing (Html, h1, div, button, text, table, tr, td)
-import Html.Events exposing (onClick)
 import Material.Layout as Layout
+import Material.Grid as Grid exposing (grid, cell, size, Device(..))
 
 
 -- local import
 
-import Types exposing (Board, Cell(..), PlayState(..), Model, Msg(..))
+import Types exposing (Board, Cell(..), Model, Msg(..))
+import Setup.View exposing (setupView)
 
 
 -- VIEW
@@ -28,16 +29,9 @@ view model =
 
 viewBody : Model -> Html Msg
 viewBody model =
-    div []
-        [ button [ onClick TogglePlayState ]
-            [ case model.playState of
-                Play ->
-                    text "pause"
-
-                Pause ->
-                    text "resume"
-            ]
-        , div [] [ boardView model.board ]
+    grid []
+        [ cell [ size All 4 ] [ setupView model.setup model.mdl ]
+        , cell [ size All 8 ] [ boardView model.board ]
         ]
 
 
