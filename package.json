@@ -7,6 +7,6 @@
   "author": "Leo jPod <leo.jpod@gmail.com>",
   "license": "DBAD",
   "scripts": {
-    "dev": "elm-live src/App.elm --output=elm.js --open"
+    "dev": "elm-live src/Main.elm --output=elm.js --open"
   }
 }

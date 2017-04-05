@@ -1,11 +1,11 @@
-module App exposing (..)
+module Main exposing (..)
 
 import Html exposing (program)
 
 
 -- local imports
 
-import Types exposing (Cell(..), Board, Model, Msg(..))
+import Types exposing (Model, Msg)
 import State exposing (init, update, subscriptions)
 import View exposing (view)
 
