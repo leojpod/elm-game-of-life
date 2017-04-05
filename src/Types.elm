@@ -1,4 +1,4 @@
-module Types exposing (Cell(..), Board, Model, Msg(..))
+module Types exposing (Model, Msg(..))
 
 import Material
 
@@ -6,19 +6,10 @@ import Material
 -- local imports
 
 import Setup.Types exposing (Setup, SetupMsg(..))
+import Board.Types exposing (Board, BoardMsg)
 
 
 -- MODEL
-
-
-type Cell
-    = Empty
-    | Dead
-    | Alive
-
-
-type alias Board =
-    List (List Cell)
 
 
 type alias Model =
@@ -30,7 +21,6 @@ type alias Model =
 
 
 type Msg
-    = BoardUpdate Board
-    | Tick
+    = BoardMsg BoardMsg
     | SetupMsg SetupMsg
     | Mdl (Material.Msg Msg)
