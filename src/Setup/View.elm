@@ -6,6 +6,7 @@ import Material.Button as Button
 import Material.Icon as Icon
 import Material.Card as Card
 import Material.Options as Options
+import Material.Slider as Slider
 import Material.Elevation as Elevation
 import Material.Grid as Grid exposing (grid, cell, size, Device(..))
 
@@ -47,6 +48,23 @@ startStop playState mdlModel =
     )
 
 
+speedChangeView : Speed -> Html Types.Msg
+speedChangeView currentSpeed =
+    Slider.view
+        [ Slider.onChange
+            (\float ->
+                let
+                    speed =
+                        Setup.Types.intToSpeed float
+                in
+                    SetupMsg (SpeedChange speed)
+            )
+        , Slider.value (Setup.Types.speedToInt currentSpeed)
+        , Slider.min 0
+        , Slider.max 3
+        ]
+
+
 setupView : Setup -> Material.Model -> Html Types.Msg
 setupView setup mdlModel =
     Card.view
@@ -57,6 +75,10 @@ setupView setup mdlModel =
         [ Card.title []
             [ Card.head [] [ text "Setup" ]
             , Card.subhead [] [ text "setup your game and it will reset accordingly" ]
+            ]
+        , Card.text []
+            [ text <| "select the speed: " ++ (toString setup.speed)
+            , speedChangeView setup.speed
             ]
         , Card.actions
             [ Card.border ]

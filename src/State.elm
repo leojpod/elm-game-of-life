@@ -1,6 +1,5 @@
 module State exposing (init, update, subscriptions)
 
-import Maybe exposing (Maybe, andThen)
 import Time exposing (every, second)
 import Material
 import Material.Layout as Layout
@@ -71,7 +70,7 @@ subscriptions model =
         [ Material.subscriptions Mdl model
         , case model.setup.state of
             Setup.Types.Play ->
-                every second (\_ -> BoardMsg Tick)
+                every (Setup.Types.speedToInterval model.setup.speed) (\_ -> BoardMsg Tick)
 
             Setup.Types.Pause ->
                 Sub.none
