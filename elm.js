@@ -16925,12 +16925,60 @@ var _user$project$View$view = function (model) {
 			header: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$h1,
+					_debois$elm_mdl$Material_Layout$row,
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text('Elm\'s game of life'),
-						_1: {ctor: '[]'}
+						_0: A2(
+							_debois$elm_mdl$Material_Layout$title,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Elm\'s game of life'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _debois$elm_mdl$Material_Layout$spacer,
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_debois$elm_mdl$Material_Layout$navigation,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_debois$elm_mdl$Material_Layout$link,
+											{
+												ctor: '::',
+												_0: _debois$elm_mdl$Material_Layout$href('https://github.com/leojpod/elm-game-of-life'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('See on github'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_debois$elm_mdl$Material_Layout$link,
+												{
+													ctor: '::',
+													_0: _debois$elm_mdl$Material_Layout$href('https://twitter.com/leojpod'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Follow me on Twitter'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
 					}),
 				_1: {ctor: '[]'}
 			},
