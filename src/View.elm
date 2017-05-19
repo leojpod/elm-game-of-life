@@ -21,7 +21,16 @@ view model =
         model.mdl
         [ Layout.fixedHeader
         ]
-        { header = [ h1 [] [ text "Elm's game of life" ] ]
+        { header =
+            [ Layout.row []
+                [ Layout.title [] [ text "Elm's game of life" ]
+                , Layout.spacer
+                , Layout.navigation []
+                    [ Layout.link [ Layout.href "https://github.com/leojpod/elm-game-of-life" ] [ text "See on github" ]
+                    , Layout.link [ Layout.href "https://twitter.com/leojpod" ] [ text "Follow me on Twitter" ]
+                    ]
+                ]
+            ]
         , drawer = []
         , tabs = ( [], [] )
         , main = [ viewBody model ]
